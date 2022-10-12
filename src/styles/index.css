@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 body, html {
-  @apply font-inter;
+  @apply font-inter text-normal;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @apply font-bold;
 }
 
-span, p, a {
+span, p, a, strong {
   @apply text-sm;
 }
 
