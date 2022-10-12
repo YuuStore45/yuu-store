@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+  @apply font-inter;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold;
+}
+
+span, p, a {
+  @apply text-sm;
+}
+
+/* h1 {
+  @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+}
+
+h2 {
+  @apply text-lg md:text-xl lg:text-2xl xl:text-3xl;
+}
+
+h3 {
+  @apply text-xl md:text-xl xl:text-2xl;
+} */
