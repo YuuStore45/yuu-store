@@ -6,7 +6,7 @@ import { commonStyles } from "../common/styles";
 
 import { Link } from "react-router-dom";
 
-const isLogged = true;
+const isLogged = false;
 
 export default function Header() {
   return (

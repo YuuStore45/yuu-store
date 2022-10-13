@@ -30,12 +30,13 @@ export default function Home() {
           )}
         >
           <div className="text-center">
-            <h1 className="font-extrabold">
-              {["Confiável.", "Seguro.", "Rápido."].map((text) => (
+            <h1 className="font-extrabold text-5xl md:text-7xl">
+              {/* {["Confiável.", "Seguro.", "Rápido."].map((text) => (
                 <span key={text} className="text-5xl md:text-7xl">
                   {text}
                 </span>
-              ))}
+              ))} */}
+              Confiável. Seguro. Rápido.
               {/* <span>Confiável.</span>
               <span className="text-5xl md:text-7xl">Seguro.</span>
               <span className="text-5xl md:text-7xl">Rápido.</span> */}
