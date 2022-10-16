@@ -1,38 +1,36 @@
 import classNames from "classnames";
-import { commonStyles } from "../common/styles";
 
 import Header from "../components/Header";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import api from "../service/api";
 
 import { Product } from "../types/Product";
+import { GetStaticProps } from "next";
 
-export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
+interface Props {
+  products: Product[];
+}
 
-  useEffect(() => {
-    async function productFetcher() {
-      const { data } = await api.get("/products");
+export default function HomePage({ products }: Props) {
+  // const [products, setProducts] = useState<Product[]>([]);
 
-      setProducts(data);
-    }
+  // useEffect(() => {
+  //   async function productFetcher() {
+  //     const { data } = await api.get("/products");
 
-    productFetcher();
-  }, []);
+  //     setProducts(data);
+  //   }
+
+  //   productFetcher();
+  // }, []);
 
   return (
     <>
       <Header />
 
       <main>
-        <section
-          className={classNames(
-            "bg-home w-full h-80 xl:h-[448px] flex justify-center items-center",
-            commonStyles["page-padding"]
-          )}
-        >
+        <section className="bg-home w-full h-80 xl:h-[448px] flex justify-center items-center">
           <div className="text-center">
             <h1 className="font-extrabold text-5xl md:text-7xl">Confiável. Seguro. Rápido.</h1>
             <p className="mt-3 text-sm md:text-base">
@@ -43,16 +41,16 @@ export default function Home() {
 
         <div className="mt-4"></div>
 
-        <section className={classNames(commonStyles["page-padding"], "py-4")}>
+        <section className="max-w-container mx-auto p-4">
           <div>
             <h1 className="text-xl text-center mb-4"> Nossos mais vendidos </h1>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 2xl:grid-cols-4">
               {products?.map((prod) => (
                 <Link href={`/product/${prod.id}`} key={prod.id} passHref>
                   <a className="bg-white100 group cursor-pointer h-64 rounded-lg flex flex-col items-center justify-between py-3">
                     <div className="relative w-36 h-36">
-                      <img src={prod.image} className="object-cover duration-200 group-hover:scale-110" />
+                      <img src={prod.images.thumb} className="object-cover duration-200 group-hover:scale-110" />
                     </div>
 
                     <div className="mt-2 flex flex-col justify-start w-full px-3">
@@ -81,3 +79,13 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { data } = await api.get("/products");
+
+  return {
+    props: {
+      products: data,
+    },
+  };
+};
