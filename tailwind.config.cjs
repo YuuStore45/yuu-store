@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}", "./index.html"],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
       black: "#000000",
@@ -14,6 +14,7 @@ module.exports = {
       white: "#FFFFFF",
       normal: "#000000",
       weak: "#888888",
+      sky: "#94bdf5",
     },
     extend: {
       fontFamily: {
@@ -23,7 +24,8 @@ module.exports = {
         home: "linear-gradient(to right, #E0C4FD, #8FC6FD)",
       },
       boxShadow: {
-        normal: "0 0 0 1px #333",
+        normal: "0 0 10px 1px #333",
+        border: "0px 0px 5px 3px #94bdF5",
       },
       height: {
         68: "272px",
