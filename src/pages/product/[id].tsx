@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header";
-
-import classNames from "classnames";
+import QuantityInput from "../../components/QuantityInput";
+import Footer from "../../components/Footer";
+import BottomSlideButton from "../../components/BottomSlideButton";
 
 import { GetStaticPaths, GetStaticProps } from "next/types";
 
@@ -12,13 +13,26 @@ import { Product } from "../../types/Product";
 import { formatCurrency } from "../../utils/formatCurrency";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
+import { useCartContext } from "../../context/CartContext";
 
 interface Props {
   product: Product;
 }
 
 export default function ProductPage({ product }: Props) {
+  const [productQuantity, setProductQuantity] = useState(1);
+
   const pageTitle = `Yuu Store: ${product.title || ""}`;
+
+  const { addProductToCart } = useCartContext();
+
+  function addToCart() {
+    addProductToCart({
+      productQuantity,
+      product,
+    });
+  }
 
   return (
     <>
@@ -30,8 +44,8 @@ export default function ProductPage({ product }: Props) {
       <Header />
 
       <main className="w-full h-full border-t border-gray">
-        <section className="max-w-container mx-auto px-6">
-          <div className="flex items-center py-4">
+        <section className="max-w-container mx-auto px-4">
+          <div className="flex items-center py-3 md:py-4">
             <p className="text-weak text-base">
               <Link passHref href="/">
                 <a>Home</a>
@@ -40,30 +54,56 @@ export default function ProductPage({ product }: Props) {
               <span> Beleza </span>
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <img src={`/${product.images.primary}`} alt="Base" className="lg:max-w-[488px] xl:max-w-[572px]" />
 
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+            <img
+              src={`/${product.images.primary}`}
+              alt="Base"
+              className="md:max-w-[360px] lg:max-w-[488px] xl:max-w-[572px]"
+            />
+
+            <div className="mt-3 md:mt-0">
               <div>
-                <h1 className=""> {product?.title} </h1>
+                <h1 className="text-xl lg:text-2xl"> {product?.title} </h1>
 
-                <span className="text-base"> {product.description.short} </span>
+                <span className="text-sm lg:text-base text-weak"> {product.description.short} </span>
               </div>
 
-              <div className="mt-6 mb-2 bg-gray h-[1px]"></div>
+              <div className="mt-8">
+                <h2> {formatCurrency(product?.price)} </h2>
 
-              <div className="">
-                <h2 className=""> {formatCurrency(product?.price)} </h2>
+                <div className="flex flex-row items-center text-weak mt-1">
+                  <Icon icon="carbon:delivery" className="icon" />
 
-                <div className="flex flex-row items-center">
-                  <Icon icon="carbon:delivery" />
-                  {product.delivery.free ? (
-                    <span> Frete grátis </span>
-                  ) : (
-                    <span> Frete {formatCurrency(product.delivery.value)} </span>
-                  )}
+                  <span className="ml-2">
+                    Frete {product.delivery.free ? "Grátis" : formatCurrency(product.delivery.value)}
+                  </span>
                 </div>
               </div>
+
+              {/* Buttons */}
+              <div className="mt-7">
+                <div>
+                  <QuantityInput value={productQuantity} setValue={setProductQuantity} />
+                </div>
+
+                <div className="mt-2 flex">
+                  <button
+                    onClick={addToCart}
+                    className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal"
+                  >
+                    Adicionar ao carrinho
+                  </button>
+
+                  <div className="mx-2"></div>
+
+                  <button className="px-3 py-2 text-sm md:text-base border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal">
+                    Comprar
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-gray h-[1px] w-full my-4" />
             </div>
           </div>
 
@@ -101,6 +141,8 @@ export default function ProductPage({ product }: Props) {
           </div> */}
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

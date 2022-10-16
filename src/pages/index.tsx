@@ -7,6 +7,7 @@ import api from "../service/api";
 
 import { Product } from "../types/Product";
 import { GetStaticProps } from "next";
+import Head from "next/head";
 
 interface Props {
   products: Product[];
@@ -27,6 +28,10 @@ export default function HomePage({ products }: Props) {
 
   return (
     <>
+      <Head>
+        <title> Yuu Store - Encontre algo único! </title>
+      </Head>
+
       <Header />
 
       <main>
@@ -55,13 +60,13 @@ export default function HomePage({ products }: Props) {
 
                     <div className="mt-2 flex flex-col justify-start w-full px-3">
                       <div className="flex justify-between items-center">
-                        <strong className="text-base"> {prod.title} </strong>
+                        <h3> {prod.title} </h3>
                         <strong className="text-base">
                           {prod.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                         </strong>
                       </div>
 
-                      <p className="text-xs"> {prod.description.short.slice(0, 60) + "..."} </p>
+                      <p className="text-sm"> {prod.description.short.slice(0, 60) + "..."} </p>
 
                       {/* <button className="mt-2 duration-200 bg-sky px-3 py-2 rounded-md font-bold">
                       Adicionar no carrinho

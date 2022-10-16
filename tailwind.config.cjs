@@ -13,6 +13,7 @@ module.exports = {
       gray: "#E0E0E0",
       sky: "#94bdf5",
       red: "#EE4D5F",
+      transparent: "transparent",
     },
     textColor: {
       transparent: "transparent",

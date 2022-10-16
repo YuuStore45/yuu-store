@@ -1,8 +1,18 @@
 import type { AppProps } from "next/app";
+import { AuthContextProvider } from "../context/AuthContext";
+import { CartContextProvider } from "../context/CartContext";
 import "../styles/index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <AuthContextProvider>
+        <CartContextProvider>
+          <Component {...pageProps} />
+        </CartContextProvider>
+      </AuthContextProvider>
+    </>
+  );
 }
 
 export default MyApp;
