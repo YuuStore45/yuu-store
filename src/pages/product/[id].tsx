@@ -64,7 +64,7 @@ export default function ProductPage({ product }: Props) {
 
             <div className="mt-3 md:mt-0">
               <div>
-                <h1 className="text-xl lg:text-2xl"> {product?.title} </h1>
+                <h1 className="text-2xl lg:text-3xl"> {product?.title} </h1>
 
                 <span className="text-sm lg:text-base text-weak"> {product.description.short} </span>
               </div>
