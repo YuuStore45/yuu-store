@@ -95,15 +95,23 @@ export default function ProductPage({ product }: Props) {
                     Adicionar ao carrinho
                   </button>
 
-                  <div className="mx-2"></div>
+                  <div className="mx-1"></div>
 
-                  <button className="px-3 py-2 text-sm md:text-base border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal">
+                  <button className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal">
                     Comprar
                   </button>
                 </div>
               </div>
 
-              <div className="bg-gray h-[1px] w-full my-4" />
+              <div className="bg-gray h-[1px] w-full my-4"></div>
+
+              <div>
+                <div>
+                  <h3> Descrição </h3>
+
+                  <p className="mt-2">Maquiagem</p>
+                </div>
+              </div>
             </div>
           </div>
 

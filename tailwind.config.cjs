@@ -1,3 +1,5 @@
+// font 12, 14, 16, 18, 24 and 40 px
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

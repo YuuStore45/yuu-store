@@ -36,8 +36,8 @@ export default function HomePage({ products }: Props) {
 
       <main>
         <section className="bg-home w-full h-80 xl:h-[448px] flex justify-center items-center">
-          <div className="text-center">
-            <h1 className="font-extrabold text-5xl md:text-7xl">Confiável. Seguro. Rápido.</h1>
+          <div className="text-center px-4">
+            <h1 className="font-extrabold text-4xl md:text-6xl">Confiável. Seguro. Rápido.</h1>
             <p className="mt-3 text-sm md:text-base">
               YuuStore é uma loja 100% focada na segurança e rapidez da sua compra!
             </p>
