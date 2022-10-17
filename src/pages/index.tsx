@@ -8,6 +8,7 @@ import api from "../service/api";
 import { Product } from "../types/Product";
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import { formatCurrency } from "../utils/formatCurrency";
 
 interface Props {
   products: Product[];
@@ -61,9 +62,15 @@ export default function HomePage({ products }: Props) {
                     <div className="mt-2 flex flex-col justify-start w-full px-3">
                       <div className="flex justify-between items-center">
                         <h3> {prod.title} </h3>
-                        <strong className="text-base">
-                          {prod.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                        </strong>
+
+                        <div>
+                          <span className="line-through"> {prod.hasDiscount && formatCurrency(prod.price.value)} </span>
+                          <strong className="text-base">
+                            {formatCurrency(prod.hasDiscount ? prod.price.withDiscount : prod.price.value)}
+                            {/* {prod.hasDiscount ? formatCurrency(prod.price.withDiscount) : } */}
+                            {/* {prod.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} */}
+                          </strong>
+                        </div>
                       </div>
 
                       <p className="text-sm"> {prod.description.short.slice(0, 60) + "..."} </p>

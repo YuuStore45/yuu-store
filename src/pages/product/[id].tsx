@@ -69,8 +69,11 @@ export default function ProductPage({ product }: Props) {
                 <span className="text-sm lg:text-base text-weak"> {product.description.short} </span>
               </div>
 
-              <div className="mt-8">
-                <h2> {formatCurrency(product?.price)} </h2>
+              <div className="mt-6">
+                <div className="">
+                  <span className="line-through"> {product.hasDiscount && formatCurrency(product.price.value)} </span>
+                  <h2> {formatCurrency(product.hasDiscount ? product.price.withDiscount : product.price.value)} </h2>
+                </div>
 
                 <div className="flex flex-row items-center text-weak mt-1">
                   <Icon icon="carbon:delivery" className="icon" />

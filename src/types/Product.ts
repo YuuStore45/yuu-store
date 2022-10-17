@@ -1,7 +1,11 @@
 export interface Product {
   title: string;
   id: string;
-  price: number;
+  price: {
+    value: number;
+    withDiscount: number;
+  };
+  hasDiscount: boolean;
   images: {
     thumb: string;
     primary: string;
