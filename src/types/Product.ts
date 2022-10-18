@@ -19,4 +19,5 @@ export interface Product {
     long: string;
     short: string;
   };
+  rating: number;
 }

@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import classNames from "classnames";
 
 import Header from "../components/Header";
@@ -9,24 +10,14 @@ import { Product } from "../types/Product";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { formatCurrency } from "../utils/formatCurrency";
+import { Rating } from "react-simple-star-rating";
+import BottomSlideButton from "../components/BottomSlideButton";
 
 interface Props {
   products: Product[];
 }
 
 export default function HomePage({ products }: Props) {
-  // const [products, setProducts] = useState<Product[]>([]);
-
-  // useEffect(() => {
-  //   async function productFetcher() {
-  //     const { data } = await api.get("/products");
-
-  //     setProducts(data);
-  //   }
-
-  //   productFetcher();
-  // }, []);
-
   return (
     <>
       <Head>
@@ -51,33 +42,33 @@ export default function HomePage({ products }: Props) {
           <div>
             <h1 className="text-xl text-center mb-4"> Nossos mais vendidos </h1>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 2xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4 2xl:grid-cols-5">
               {products?.map((prod) => (
                 <Link href={`/product/${prod.id}`} key={prod.id} passHref>
-                  <a className="bg-white100 group cursor-pointer h-64 rounded-lg flex flex-col items-center justify-between py-3">
+                  <a className="bg-white100 group cursor-pointer h-68 rounded-lg flex flex-col items-center justify-between py-3">
                     <div className="relative w-36 h-36">
                       <img src={prod.images.thumb} className="object-cover duration-200 group-hover:scale-110" />
                     </div>
 
-                    <div className="mt-2 flex flex-col justify-start w-full px-3">
+                    <div className="mt-1 flex flex-col justify-start w-full px-3">
                       <div className="flex justify-between items-center">
                         <h3> {prod.title} </h3>
-
-                        <div>
-                          <span className="line-through"> {prod.hasDiscount && formatCurrency(prod.price.value)} </span>
-                          <strong className="text-base">
-                            {formatCurrency(prod.hasDiscount ? prod.price.withDiscount : prod.price.value)}
-                            {/* {prod.hasDiscount ? formatCurrency(prod.price.withDiscount) : } */}
-                            {/* {prod.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} */}
-                          </strong>
-                        </div>
                       </div>
 
-                      <p className="text-sm"> {prod.description.short.slice(0, 60) + "..."} </p>
+                      <div className="w-full flex"></div>
 
-                      {/* <button className="mt-2 duration-200 bg-sky px-3 py-2 rounded-md font-bold">
-                      Adicionar no carrinho
-                    </button> */}
+                      <div>
+                        <strong className="text-base">
+                          {formatCurrency(prod.hasDiscount ? prod.price.withDiscount : prod.price.value)}
+                        </strong>
+                        <span className="line-through"> {prod.hasDiscount && formatCurrency(prod.price.value)} </span>
+                      </div>
+
+                      {/* <p className="text-sm"> {prod.description.short.slice(0, 60) + "..."} </p> */}
+
+                      <button className="mt-2 duration-200 hover:bg-transparent border-sky border-2 bg-sky px-3 py-2 rounded-md font-bold">
+                        Adicionar no carrinho
+                      </button>
                     </div>
                   </a>
                 </Link>
