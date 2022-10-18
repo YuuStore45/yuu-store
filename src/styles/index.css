@@ -14,6 +14,10 @@ span, p, a, strong {
   @apply text-sm;
 }
 
+button, input {
+  @apply text-base;
+}
+
 .page-padding {
   @apply px-4 md:px-8 lg:px-32 xl:px-44;
 }
