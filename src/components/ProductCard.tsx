@@ -15,22 +15,26 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addProductToWishList, isStarred, removeProductFromWishList } = useWishListContext();
 
+  function handleAddToWishList() {
+    if (isStarred(product.id)) {
+      return removeProductFromWishList(product.id);
+    }
+
+    addProductToWishList({
+      product,
+    });
+  }
+
   return (
     // <Link passHref href={`/product/${product.id}`}>
     <div className="bg-card relative group rounded-md py-3">
-      <div className="z-20 absolute right-4 top-4 cursor-pointer">
+      <div
+        className="z-20 absolute right-0 top-0 w-14 h-14 flex justify-center items-center cursor-pointer"
+        onClick={handleAddToWishList}
+      >
         <Icon
           icon={isStarred(product.id) ? "ant-design:heart-filled" : "akar-icons:heart"}
           className={classNames("icon duration-200 hover:scale-110", { "text-red-color": isStarred })}
-          onClick={() => {
-            if (isStarred(product.id)) {
-              return removeProductFromWishList(product.id);
-            }
-
-            addProductToWishList({
-              product,
-            });
-          }}
         />
       </div>
 
