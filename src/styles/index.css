@@ -3,18 +3,14 @@
 @tailwind utilities;
 
 body, html {
-  @apply font-inter text-normal;
+  @apply font-inter text-normal-color;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  @apply font-bold;
+h1, h2, h3, h4, h5, h6, strong {
+  @apply font-bold text-heading-color;
 }
 
-span, p, a, strong {
-  @apply text-sm;
-}
-
-button, input {
+span, p, a {
   @apply text-base;
 }
 
@@ -31,6 +27,14 @@ button, input {
 }
 
 h1 {
+  @apply text-heading1;
+}
+
+h2 {
+  @apply text-heading2;
+}
+
+/* h1 {
   @apply text-2xl md:text-3xl lg:text-4xl;
 }
 
@@ -40,7 +44,7 @@ h2 {
 
 h3 {
   @apply text-base md:text-lg;
-}
+} */
 
 /* h2 {
   @apply text-lg md:text-xl lg:text-2xl xl:text-3xl;

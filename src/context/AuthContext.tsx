@@ -6,7 +6,7 @@ const AuthContext = createContext<AuthContextValues>({} as AuthContextValues);
 
 export function AuthContextProvider({ children }: WithChildren) {
   useEffect(() => {
-    console.log("Auth context loaded");
+    // console.log("Auth context loaded");
   }, []);
 
   return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;

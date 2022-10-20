@@ -23,9 +23,7 @@ export function CartContextProvider({ children }: WithChildren) {
   }
 
   useEffect(() => {
-    console.log("Cart context loaded");
-
-    console.log(cartProducts, cartProductsQuantity);
+    // console.log(cartProducts, cartProductsQuantity);
   }, [cartProducts, cartProductsQuantity]);
 
   return <CartContext.Provider value={{ cartProductsQuantity, addProductToCart }}>{children}</CartContext.Provider>;

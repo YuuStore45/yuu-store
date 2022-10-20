@@ -14,16 +14,23 @@ module.exports = {
       white100: "#f7f7f8",
       gray: "#E0E0E0",
       sky: "#94bdf5",
-      red: "#EE4D5F",
+      red: "#e23a3a",
       transparent: "transparent",
     },
     textColor: {
       transparent: "transparent",
       white: "#FFFFFF",
-      normal: "#353233",
-      weak: "#716e77",
+      "heading-color": "#353233",
+      "normal-color": "#716e77",
       sky: "#94bdf5",
-      red: "#EE4D5F",
+      "red-color": "#e23a3a",
+      "yellow-color": "#FCDC37",
+    },
+    fontSize: {
+      base: "14px",
+      heading1: "20px",
+      heading2: "16px",
+      xl: "60px",
     },
     extend: {
       fontFamily: {
@@ -31,6 +38,9 @@ module.exports = {
       },
       backgroundImage: {
         home: "linear-gradient(to right, #E0C4FD, #8FC6FD)",
+      },
+      backgroundColor: {
+        card: "#f7f7f8",
       },
       boxShadow: {
         normal: "0 0 10px 1px #333",

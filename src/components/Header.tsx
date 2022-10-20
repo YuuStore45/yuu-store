@@ -16,7 +16,7 @@ export default function Header() {
       <div className="flex items-center">
         <Link href="/" passHref>
           <a className="hidden md:flex">
-            <h1 className="font-extrabold text-2xl md:text-3xl"> YuuStore </h1>
+            <h1 className="font-extrabold text-[30px]"> YuuStore </h1>
           </a>
         </Link>
 

@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import Header from "../../components/Header";
 import QuantityInput from "../../components/QuantityInput";
 import Footer from "../../components/Footer";
-import BottomSlideButton from "../../components/BottomSlideButton";
+import classNames from "classnames";
 
 import { GetStaticPaths, GetStaticProps } from "next/types";
 
@@ -13,24 +13,76 @@ import { Product } from "../../types/Product";
 import { formatCurrency } from "../../utils/formatCurrency";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartContext } from "../../context/CartContext";
+import { useWishListContext } from "../../context/WishListContext";
+
+import Rating from "react-rating";
+import tippy from "tippy.js";
 
 interface Props {
   product: Product;
 }
 
+interface ProductVariantOptions {
+  label: string;
+  value: number;
+}
+
 export default function ProductPage({ product }: Props) {
+  const [productVariantOptions, setProductVariantOptions] = useState<ProductVariantOptions[]>(
+    product.variants ? product.variants?.map((variant) => ({ value: -1, label: variant.label })) : []
+  );
   const [productQuantity, setProductQuantity] = useState(1);
 
   const pageTitle = `Yuu Store: ${product.title || ""}`;
 
   const { addProductToCart } = useCartContext();
+  const { addProductToWishList, isStarred, removeProductFromWishList } = useWishListContext();
 
   function addToCart() {
     addProductToCart({
       productQuantity,
       product,
+    });
+  }
+
+  function handleAddProductToWishList() {
+    if (isStarred(product.id)) {
+      return removeProductFromWishList(product.id);
+    }
+
+    addProductToWishList({
+      product,
+    });
+  }
+
+  function chooseVariant(fieldLabel: string, index: number) {
+    const arr = productVariantOptions.map((variant) => {
+      if (variant.label === fieldLabel) {
+        return {
+          ...variant,
+          value: index,
+        };
+      }
+      return variant;
+    });
+
+    setProductVariantOptions(arr);
+  }
+
+  function handleBuyProduct() {
+    console.log({
+      product,
+      quantity: productQuantity,
+      productVariants: productVariantOptions,
+    });
+  }
+
+  if (typeof window !== "undefined") {
+    tippy("[data-tippy-content]", {
+      animation: "shift-away",
+      arrow: true,
     });
   }
 
@@ -64,92 +116,108 @@ export default function ProductPage({ product }: Props) {
 
             <div className="mt-3 md:mt-0">
               <div>
-                <h1 className="text-2xl lg:text-3xl"> {product?.title} </h1>
+                <h1 className=""> {product?.title} </h1>
 
-                <span className="text-sm lg:text-base text-weak"> {product.description.short} </span>
+                <p className=""> {product.description.short} </p>
+              </div>
+
+              <div className="mt-1 flex items-center">
+                <div className="h-5">
+                  {/* @ts-ignore */}
+                  <Rating
+                    initialRating={product.rating}
+                    readonly
+                    emptySymbol={<Icon icon="ant-design:star-outlined" className="w-5 h-5" />}
+                    fullSymbol={<Icon icon="ant-design:star-filled" className="w-5 h-5 text-yellow-color" />}
+                  />
+                </div>
+
+                <span className="ml-1"> {product.rating} </span>
               </div>
 
               <div className="mt-6">
                 <div className="">
                   <span className="line-through"> {product.hasDiscount && formatCurrency(product.price.value)} </span>
-                  <h2> {formatCurrency(product.hasDiscount ? product.price.withDiscount : product.price.value)} </h2>
+                  <h1> {formatCurrency(product.hasDiscount ? product.price.withDiscount : product.price.value)} </h1>
                 </div>
 
                 <div className="flex flex-row items-center text-weak mt-1">
                   <Icon icon="carbon:delivery" className="icon" />
 
                   <span className="ml-2">
-                    Frete {product.delivery.free ? "Grátis" : formatCurrency(product.delivery.value)}
+                    Frete {product.delivery.free ? "Grátis" : formatCurrency(product.delivery.value)}(chega em até 10
+                    dias)
                   </span>
                 </div>
               </div>
 
+              <div className="mt-7">
+                {product.variants?.map((variant) => (
+                  <div key={variant.label}>
+                    <strong> {variant.label}: </strong>
+
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                      {variant.options.map((option, index) => (
+                        <div
+                          data-tippy-content={option.label}
+                          onClick={() => chooseVariant(variant.label, index)}
+                          key={option.label}
+                          className={classNames(
+                            "cursor-pointer border border-gray rounded-sm w-20 h-20 flex justify-center items-center",
+                            {
+                              "border-black":
+                                productVariantOptions.find((item) => item.label === variant.label)?.value === index,
+                            }
+                          )}
+                        >
+                          <img src={"/" + option.image} alt="1" className="object-scale-down w-full h-full" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
               {/* Buttons */}
               <div className="mt-7">
-                <div>
-                  <QuantityInput value={productQuantity} setValue={setProductQuantity} />
-                </div>
+                <QuantityInput value={productQuantity} setValue={setProductQuantity} />
 
                 <div className="mt-2 flex">
                   <button
                     onClick={addToCart}
-                    className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal"
+                    className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal-color"
                   >
                     Adicionar ao carrinho
                   </button>
 
                   <div className="mx-1"></div>
 
-                  <button className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal">
+                  <button
+                    onClick={handleBuyProduct}
+                    className="px-3 py-2 border text-white bg-black border-gray duration-200 hover:bg-transparent hover:text-normal-color"
+                  >
                     Comprar
                   </button>
                 </div>
+
+                <button
+                  className="flex items-center justify-center mt-8 hover:underline underline-offset-2"
+                  onClick={handleAddProductToWishList}
+                >
+                  <Icon
+                    icon={isStarred(product.id) ? "ant-design:heart-filled" : "akar-icons:heart"}
+                    className={classNames({ "text-red-color": isStarred(product.id) })}
+                  />
+
+                  <span className="text-base ml-2">
+                    {isStarred(product.id) ? "Remover da" : "Adicionar à"} lista de desejos
+                  </span>
+                </button>
               </div>
 
               <div className="bg-gray h-[1px] w-full my-4"></div>
-
-              <div>
-                <div>
-                  <h3> Descrição </h3>
-
-                  <p className="mt-2">Maquiagem</p>
-                </div>
-              </div>
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-center md:items-start md:flex-row lg:w-[768px] xl:w-[1152px]">
-            <div className="flex justify-center bg-white100 w-full md:w-auto">
-              <img
-                src={`/${product?.image}`}
-                alt="A"
-                className="h-full w-full min-w-[272px] md:w-72 md:h-72  md:min-w-[288px] lg:min-w-[384px] lg:min-h-[384px] xl:min-w-[448px] xl:min-h-[448px]"
-              />
-            </div>
-            <div className="px-4 py-3 md:py-0 w-full">
-              <div className="flex justify-between">
-                <div>
-                  <h2> {product?.title} </h2>
-
-                  <h1 className="text-xl"> {formatCurrency(product?.price)} </h1>
-                </div>
-                <div className="flex justify-center items-start">
-                  <button>
-                    <Icon icon="akar-icons:heart" className={classNames("icon", "text-red")} />
-                  </button>
-                </div>
-              </div>
-
-              <Tabs.Group style="default">
-                <Tabs.Item title="Descrição" style={{ borderColor: "#7159c1" }}>
-                  <h2 className="text-weak"> Descrição </h2>
-                </Tabs.Item>
-                <Tabs.Item title="Availiação">
-                  <h2 className="text-weak"> Avaliação </h2>
-                </Tabs.Item>
-              </Tabs.Group>
-            </div>
-          </div> */}
         </section>
       </main>
 

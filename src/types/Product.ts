@@ -19,5 +19,12 @@ export interface Product {
     long: string;
     short: string;
   };
+  variants?: {
+    label: string;
+    options: {
+      label: string;
+      image: string;
+    }[];
+  }[];
   rating: number;
 }
