@@ -19,7 +19,7 @@ export default function ProductImagesViewer({ images, currentImage, changeImage,
       <img
         src={`/${currentImage}`}
         alt="Base"
-        className="w-full max-h-[288px] md:max-h-[360px] lg:max-h-[488px] xl:max-h-[572px] object-scale-down"
+        className="w-full aspect-square md:max-h-[360px] lg:max-h-[488px] xl:max-h-[572px] object-scale-down"
       />
 
       <div className="md:max-w-[360px] lg:max-w-[488px] xl:max-w-[572px] mt-1 whitespace-nowrap overflow-x-scroll hide-scrollbar-thumb">
