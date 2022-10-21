@@ -30,9 +30,7 @@ export function WishlistContextProvider({ children }: WithChildren) {
     setWishlistProducts((oldValue) => [...oldValue, data]);
   }
 
-  useEffect(() => {
-    // console.log(removeProductFromWishList("e179a0f4-3b08-46ae-8f62-92ef17dca330"));
-  }, [wishlistProducts]);
+  useEffect(() => {}, [wishlistProducts]);
 
   return (
     <WishlistContext.Provider
