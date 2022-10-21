@@ -1,7 +1,13 @@
+import { useCartContext } from "../context/CartContext";
+
 export default function Cart() {
+  const { cartProducts } = useCartContext();
+
   return (
     <div>
-      <div> Cart </div>
+      {cartProducts.map((product) => (
+        <div key={Math.random()}>{product.product.title}</div>
+      ))}
     </div>
   );
 }

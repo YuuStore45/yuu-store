@@ -3,7 +3,11 @@ import { Product } from "../types/Product";
 
 interface CartContextValues {
   addProductToCart(data: CartProduct): void;
+  removeProductFromCart(productId: Product["id"]): void;
+  isOnCart(productId: Product["id"]): boolean;
+
   cartProductsQuantity: number;
+  cartProducts: CartProduct[];
 }
 
 interface CartProduct {
@@ -18,15 +22,50 @@ export function CartContextProvider({ children }: WithChildren) {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
   function addProductToCart(data: CartProduct) {
-    setCartProductsQuantity((oldValue) => oldValue + 1);
-    setCartProducts((oldValue) => [...oldValue, data]);
+    setCartProducts((oldValue) => {
+      localStorage.setItem("cart_content", JSON.stringify([...oldValue, data]));
+
+      return [...oldValue, data];
+    });
+  }
+
+  function removeProductFromCart(productId: Product["id"]) {
+    const cartProductIndex = cartProducts.findIndex((prod) => prod.product.id === productId);
+
+    setCartProducts((oldState) => {
+      const data = oldState.filter((_, index) => index !== cartProductIndex);
+
+      localStorage.setItem("cart_content", JSON.stringify(data));
+
+      return data;
+    });
+  }
+
+  function isOnCart(productId: Product["id"]) {
+    const cartProductIndex = cartProducts.findIndex((prod) => prod.product.id === productId);
+
+    return cartProductIndex !== -1 ? true : false;
   }
 
   useEffect(() => {
-    // console.log(cartProducts, cartProductsQuantity);
-  }, [cartProducts, cartProductsQuantity]);
+    const storedCartContet: CartProduct[] = JSON.parse(localStorage.getItem("cart_content") || "[]");
 
-  return <CartContext.Provider value={{ cartProductsQuantity, addProductToCart }}>{children}</CartContext.Provider>;
+    if (storedCartContet.length !== 0) {
+      setCartProducts(storedCartContet);
+    }
+  }, []);
+
+  useEffect(() => {
+    setCartProductsQuantity(cartProducts.length);
+  }, [cartProducts]);
+
+  return (
+    <CartContext.Provider
+      value={{ cartProductsQuantity, addProductToCart, isOnCart, removeProductFromCart, cartProducts }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 }
 
 export function useCartContext() {

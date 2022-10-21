@@ -9,6 +9,7 @@ export interface Product {
   images: {
     thumb: string;
     primary: string;
+    attachments?: string[];
   };
   delivery: {
     free: boolean;
@@ -26,5 +27,6 @@ export interface Product {
       image: string;
     }[];
   }[];
+  category: string;
   rating: number;
 }

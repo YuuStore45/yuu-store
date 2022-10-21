@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
+
 import { AuthContextProvider } from "../context/AuthContext";
 import { CartContextProvider } from "../context/CartContext";
-import { WishListContextProvider } from "../context/WishListContext";
+import { WishlistContextProvider } from "../context/WishlistContext";
 
 import "../styles/index.css";
 
@@ -13,9 +14,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <AuthContextProvider>
         <CartContextProvider>
-          <WishListContextProvider>
+          <WishlistContextProvider>
             <Component {...pageProps} />
-          </WishListContextProvider>
+          </WishlistContextProvider>
         </CartContextProvider>
       </AuthContextProvider>
     </>

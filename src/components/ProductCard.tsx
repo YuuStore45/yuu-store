@@ -6,14 +6,18 @@ import { Product } from "../types/Product";
 import React, { useState } from "react";
 import Link from "next/link";
 import { formatCurrency } from "../utils/formatCurrency";
-import { useWishListContext } from "../context/WishListContext";
+import { useWishlistContext } from "../context/WishlistContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addProductToWishList, isStarred, removeProductFromWishList } = useWishListContext();
+  const {
+    addProductToWishlist: addProductToWishList,
+    isStarred,
+    removeProductFromWishlist: removeProductFromWishList,
+  } = useWishlistContext();
 
   function handleAddToWishList() {
     if (isStarred(product.id)) {
@@ -28,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     // <Link passHref href={`/product/${product.id}`}>
     <div className="bg-card relative group rounded-md py-3">
-      <div
+      <label
         className="z-20 absolute right-0 top-0 w-14 h-14 flex justify-center items-center cursor-pointer"
         onClick={handleAddToWishList}
       >
@@ -36,7 +40,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           icon={isStarred(product.id) ? "ant-design:heart-filled" : "akar-icons:heart"}
           className={classNames("icon duration-200 hover:scale-110", { "text-red-color": isStarred })}
         />
-      </div>
+      </label>
 
       <Link href={`/product/${product.id}`}>
         <a className="w-full flex flex-col items-center justify-between">

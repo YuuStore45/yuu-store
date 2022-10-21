@@ -1,46 +1,52 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Product } from "../types/Product";
 
-interface WishListContextValues {
-  addProductToWishList(data: WishListProduct): void;
+interface WishlistContextValues {
+  addProductToWishlist(data: WishlistProduct): void;
   isStarred(productId: Product["id"]): boolean;
-  removeProductFromWishList(productId: Product["id"]): void;
+  removeProductFromWishlist(productId: Product["id"]): void;
 }
 
-interface WishListProduct {
+interface WishlistProduct {
   product: Product;
 }
 
-const WishListContext = createContext<WishListContextValues>({} as WishListContextValues);
+const WishlistContext = createContext<WishlistContextValues>({} as WishlistContextValues);
 
-export function WishListContextProvider({ children }: WithChildren) {
-  const [wishListProducts, setWishListProducts] = useState<WishListProduct[]>([]);
+export function WishlistContextProvider({ children }: WithChildren) {
+  const [wishlistProducts, setWishlistProducts] = useState<WishlistProduct[]>([]);
 
   function isStarred(productId: Product["id"]) {
-    return !!wishListProducts.find((item) => item.product.id === productId);
+    return !!wishlistProducts.find((item) => item.product.id === productId);
   }
 
-  function removeProductFromWishList(productId: Product["id"]) {
-    const wishListProductIndex = wishListProducts.findIndex((prod) => prod.product.id === productId);
+  function removeProductFromWishlist(productId: Product["id"]) {
+    const wishlistProductIndex = wishlistProducts.findIndex((prod) => prod.product.id === productId);
 
-    setWishListProducts((oldState) => oldState.filter((_, index) => index !== wishListProductIndex));
+    setWishlistProducts((oldState) => oldState.filter((_, index) => index !== wishlistProductIndex));
   }
 
-  function addProductToWishList(data: WishListProduct) {
-    setWishListProducts((oldValue) => [...oldValue, data]);
+  function addProductToWishlist(data: WishlistProduct) {
+    setWishlistProducts((oldValue) => [...oldValue, data]);
   }
 
   useEffect(() => {
     // console.log(removeProductFromWishList("e179a0f4-3b08-46ae-8f62-92ef17dca330"));
-  }, [wishListProducts]);
+  }, [wishlistProducts]);
 
   return (
-    <WishListContext.Provider value={{ addProductToWishList, isStarred, removeProductFromWishList }}>
+    <WishlistContext.Provider
+      value={{
+        addProductToWishlist,
+        isStarred,
+        removeProductFromWishlist,
+      }}
+    >
       {children}
-    </WishListContext.Provider>
+    </WishlistContext.Provider>
   );
 }
 
-export function useWishListContext() {
-  return useContext(WishListContext);
+export function useWishlistContext() {
+  return useContext(WishlistContext);
 }

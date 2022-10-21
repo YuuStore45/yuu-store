@@ -34,6 +34,10 @@ h2 {
   @apply text-heading2;
 }
 
+.hide-scrollbar-thumb::-webkit-scrollbar {
+  display: none;
+}
+
 /* h1 {
   @apply text-2xl md:text-3xl lg:text-4xl;
 }
